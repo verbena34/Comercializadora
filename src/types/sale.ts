@@ -1,12 +1,17 @@
 export interface Sale {
   id: string;
+  customerName: string;
   date: string;
-  total: number;
   items: SaleItem[];
-  customerName?: string;
+  total: number;
+  subtotal: number;
+  discount: number;
+  status: "completed" | "pending" | "cancelled" | "draft";
+  paymentMethod: "efectivo" | "tarjeta" | "transferencia";
+  transferenceImage?: string;
+  fromQuote?: string; // ID of the original quote
   customerNit?: string;
-  employeeId: string;
-  status: "draft" | "completed";
+  employeeId?: string;
 }
 
 export interface SaleItem {
@@ -16,4 +21,12 @@ export interface SaleItem {
   price: number;
   discount: number;
   total: number;
+}
+
+export interface SaleSummary {
+  totalSales: number;
+  totalRevenue: number;
+  averageOrderValue: number;
+  todaySales: number;
+  monthSales: number;
 }

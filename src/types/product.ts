@@ -1,15 +1,16 @@
 export interface Product {
   id: string;
   sku: string;
-  barcode: string;
   name: string;
   category: string;
-  unit: string;
-  cost: number;
+  subcategory?: string;
   price: number;
   stock: number;
   stockMin: number;
   active: boolean;
+  image?: string;
+  images?: string[];
+  description?: string;
 }
 
 export interface KardexEntry {

@@ -9,15 +9,16 @@ export default function Topbar() {
   return (
     <header className="flex items-center justify-between p-4 border-b bg-white">
       <div className="flex items-center gap-4">
-        <img src={logo} alt="logo" className="h-8" />
-        <div className="relative">
-          <input placeholder="Buscar..." className="pl-10 pr-4 h-10 rounded-xl border bg-gray-50" />
-          <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+        <div className="flex items-center gap-3">
+          <img src={logo} alt="Emprende360" className="h-8" />
+          <div className="flex items-center bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-3 py-1 rounded-lg text-sm font-semibold">
+            EMPRENDE360
+          </div>
         </div>
       </div>
       <div className="flex items-center gap-4">
         <select
-          value={role}
+          value={role || "employee"}
           onChange={(e) => setRole(e.target.value as any)}
           className="border rounded-lg p-2 bg-white"
         >

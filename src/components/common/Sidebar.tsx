@@ -1,4 +1,4 @@
-import { BarChart2, Box, File, FileText, Home, ShoppingCart, User, Users } from "lucide-react";
+import { Box, FileText, Home, ShoppingCart, User, Users, CreditCard } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../store/useAuth";
 
@@ -7,9 +7,8 @@ const items = [
   { to: "/productos", label: "Productos", icon: <Box /> },
   { to: "/compras", label: "Compras", icon: <ShoppingCart />, adminOnly: true },
   { to: "/cotizaciones", label: "Cotizaciones", icon: <FileText /> },
-  { to: "/pos", label: "POS", icon: <File /> },
-  { to: "/fel", label: "FEL", icon: <FileText /> },
-  { to: "/reportes", label: "Reportes", icon: <BarChart2 /> },
+  { to: "/ventas", label: "Ventas", icon: <CreditCard /> },
+  { to: "/clientes", label: "Clientes", icon: <Users /> },
   { to: "/usuarios", label: "Usuarios", icon: <Users />, adminOnly: true },
   { to: "/perfil", label: "Perfil", icon: <User /> },
 ];

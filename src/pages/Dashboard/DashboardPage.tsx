@@ -4,26 +4,34 @@ import Button from "../../components/ui/Button";
 import Card from "../../components/ui/Card";
 import Table from "../../components/ui/Table";
 import { formatMoney } from "../../lib/format";
-import { mockQuotes, mockSales } from "../../lib/mock";
+import { mockQuotes } from "../../lib/mock";
 import { useAuth } from "../../store/useAuth";
 import { useCatalog } from "../../store/useCatalog";
+import { useSales } from "../../store/useSales";
 
 export default function DashboardPage() {
   const role = useAuth((state) => state.role);
   const products = useCatalog((state) => state.products);
   const navigate = useNavigate();
-
-  const todaySales = mockSales.filter((s) => s.date === "2024-10-21");
-  const todayTotal = todaySales.reduce((sum, sale) => sum + sale.total, 0);
+  
+  // Usar el store de ventas centralizado
+  const sales = useSales((state) => state.sales);
+  const todaySales = useSales((state) => state.getTodaySales());
+  const completedSales = useSales((state) => state.getCompletedSales());
+  const totalRevenue = useSales((state) => state.getTotalRevenue());
+  
+  // Cálculos adicionales
   const lowStockProducts = products.filter((p) => p.stock <= p.stockMin);
   const openQuotes = mockQuotes.filter((q) => q.status === "open");
 
-  const latestSales = mockSales.slice(0, 5).map((sale) => ({
-    ID: sale.id,
-    Cliente: sale.customerName || "N/A",
-    Total: formatMoney(sale.total),
-    Fecha: sale.date,
-  }));
+  const latestSales = completedSales
+    .slice(0, 5)
+    .map((sale) => ({
+      ID: sale.id,
+      Cliente: sale.customerName || "N/A",
+      Total: formatMoney(sale.total),
+      Fecha: sale.date,
+    }));
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 space-y-6 sm:space-y-8 lg:space-y-10">
@@ -43,7 +51,7 @@ export default function DashboardPage() {
                 <span className="text-2xl">💰</span>
               </div>
             </div>
-            <p className="text-3xl font-bold">{formatMoney(todayTotal)}</p>
+            <p className="text-3xl font-bold">{formatMoney(todaySales.reduce((sum, sale) => sum + sale.total, 0))}</p>
             <p className="text-emerald-100 mt-2">{todaySales.length} transacciones</p>
           </div>
         </Card>
@@ -94,14 +102,14 @@ export default function DashboardPage() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <h3 className="text-xl font-bold">Últimas Ventas</h3>
-                <p className="text-slate-200">Actividad reciente del POS</p>
+                <p className="text-slate-200">Actividad reciente de clientes</p>
               </div>
               <Button
                 variant="ghost"
-                onClick={() => navigate("/pos")}
+                onClick={() => navigate("/clientes")}
                 className="w-full sm:w-auto bg-white text-slate-700 hover:bg-slate-100 border-0 shadow-lg font-semibold"
               >
-                Ir a POS
+                Ver Clientes
               </Button>
             </div>
           </div>
